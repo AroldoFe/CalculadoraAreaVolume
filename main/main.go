@@ -9,9 +9,10 @@ import (
 func main() {
 	stdin := bufio.NewReader(os.Stdin)
 
+	// Opções de figuras geométricas que o usuário poderá escolher
 	opcoesMap := initializeOpcoesMap()
 
-	var opcaoEscolhida = -1
+	var figuraGeometricaSelecionada = -1
 	for {
 		// imprimir opcoes
 		{
@@ -19,38 +20,33 @@ func main() {
 			for i := 1; i < 9; i++ {
 				fmt.Printf("(%d) %s\n", i, opcoesMap[i])
 			}
-			fmt.Println(OPCAO_SAIR)
 		}
 
 		// Recuperar opcao do usuário
 		fmt.Print(OPCAO_ENTRADA)
-		var _, err = fmt.Scanf("%d", &opcaoEscolhida)
+		var _, err = fmt.Scanf("%d", &figuraGeometricaSelecionada)
 		stdin.ReadString('\n')
 
-		// Não conseguiu converter, então opcaoEscolhida é definida fora do intervalo aceitado
+		// Não conseguiu converter, então figuraGeometricaSelecionada é definida fora do intervalo aceitado
 		if err != nil {
-			opcaoEscolhida = -1
+			figuraGeometricaSelecionada = -1
 			fmt.Println(err)
 		}
 
 		// Resolveu sair
-		if opcaoEscolhida == 0 {
+		if figuraGeometricaSelecionada == 0 {
 			fmt.Println("Obrigado!")
 			break
-		} else if opcaoEscolhida > 0 && opcaoEscolhida < 9 {
-			figura := opcoesMap[opcaoEscolhida]
+		} else if figuraGeometricaSelecionada > 0 && figuraGeometricaSelecionada < 9 {
+			figura := opcoesMap[figuraGeometricaSelecionada]
 
 			var base = -1
 			var largura = -1
 			var altura = -1
 			var raio = -1
 
-			var area = -1.0
-			var perimetro = -1.0
-			var volume = -1.0
-
 			// Só precisa do raio
-			if isCirculoOrEsfera(opcaoEscolhida) {
+			if isCirculoOrEsfera(figuraGeometricaSelecionada) {
 				fmt.Printf("%s %s: ", OPCAO_RAIO, figura)
 				raio = recuperarDado()
 			} else {
@@ -61,13 +57,13 @@ func main() {
 				base = recuperarDado()
 
 				// Se é triângulo, retângulo, pirâmide ou paralelepípedo, requer também altura
-				if !isQuadradoOrCubo(opcaoEscolhida) {
+				if !isQuadradoOrCubo(figuraGeometricaSelecionada) {
 					fmt.Printf("%s %s: ", OPCAO_ALTURA, figura)
 
 					altura = recuperarDado()
 
 					// Se é pirâmide ou paralelepíledo, requer também largura
-					if isPiramideOrParalelepipedo(opcaoEscolhida) {
+					if isPiramideOrParalelepipedo(figuraGeometricaSelecionada) {
 						fmt.Printf("%s %s: ", OPCAO_LARGURA, figura)
 
 						largura = recuperarDado()
@@ -76,15 +72,19 @@ func main() {
 
 			}
 
+			var area = -1.0
+			var perimetro = -1.0
+			var volume = -1.0
+
 			// Calcular dados
-			if isCirculoOrEsfera(opcaoEscolhida) {
-				area = calcularArea(opcaoEscolhida, float64(raio), 0, 0)
-				perimetro = calcularPerimetro(opcaoEscolhida, float64(raio), 0)
-				volume = calcularVolume(opcaoEscolhida, float64(raio), 0, 0)
+			if isCirculoOrEsfera(figuraGeometricaSelecionada) {
+				area = calcularArea(figuraGeometricaSelecionada, float64(raio), 0, 0)
+				perimetro = calcularPerimetro(figuraGeometricaSelecionada, float64(raio), 0)
+				volume = calcularVolume(figuraGeometricaSelecionada, float64(raio), 0, 0)
 			} else {
-				area = calcularArea(opcaoEscolhida, float64(base), float64(altura), float64(largura))
-				perimetro = calcularPerimetro(opcaoEscolhida, float64(base), float64(altura))
-				volume = calcularVolume(opcaoEscolhida, float64(base), float64(altura), float64(largura))
+				area = calcularArea(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
+				perimetro = calcularPerimetro(figuraGeometricaSelecionada, float64(base), float64(altura))
+				volume = calcularVolume(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
 			}
 
 			// Imprimindo dados

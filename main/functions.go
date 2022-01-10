@@ -7,68 +7,16 @@ import (
 	"os"
 )
 
-func isTriangulo(opcao int) bool {
-	return opcao == 1
-}
-
-func isRetangulo(opcao int) bool {
-	return opcao == 2
-}
-
-func isQuadrado(opcao int) bool {
-	return opcao == 3
-}
-
-func isCirculo(opcao int) bool {
-	return opcao == 4
-}
-
-func isPiramide(opcao int) bool {
-	return opcao == 5
-}
-
-func isCubo(opcao int) bool {
-	return opcao == 6
-}
-
-func isParalelepipedo(opcao int) bool {
-	return opcao == 7
-}
-
-func isEsfera(opcao int) bool {
-	return opcao == 8
-}
-
-func isCirculoOrEsfera(opcao int) bool {
-	return isCirculo(opcao) || isEsfera(opcao)
-}
-
-func isQuadradoOrCubo(opcao int) bool {
-	return isQuadrado(opcao) || isCubo(opcao)
-}
-
-func isPiramideOrParalelepipedo(opcao int) bool {
-	return isPiramide(opcao) || isParalelepipedo(opcao)
-}
-
-func isQuadrilatero(opcao int) bool {
-	return isQuadrado(opcao) || isRetangulo(opcao)
-}
-
-func isPlano(opcao int) bool {
-	return 1 <= opcao && opcao <= 4
-}
-
-func isEspacial(opcao int) bool {
-	return 5 <= opcao && opcao <= 8
-}
-
 func nilInitializer() interface{} {
 	return nil
 }
 
+/**
+ * Inicializa um Map de opções para o usuário escolher
+ */
 func initializeOpcoesMap() map[int]string {
 	return map[int]string{
+		0: "Sair",
 		1: "Triângulo equilátero",
 		2: "Retângulo",
 		3: "Quadrado",
@@ -80,6 +28,9 @@ func initializeOpcoesMap() map[int]string {
 	}
 }
 
+/**
+ * Recupera inteiro do STDIN se for maior que 0
+ */
 func recuperarDado() int {
 	// enquanto err != nil, tem que pegar o raio novamente
 	stdin := bufio.NewReader(os.Stdin)
@@ -98,6 +49,9 @@ func recuperarDado() int {
 	}
 }
 
+/**
+ * Imprime os dados calculados da figura
+ */
 func imprimirDadosCalculados(figura string, area float64, perimetro float64, volume float64) {
 	if area > 0 {
 		fmt.Printf("Área do(a) %s: %f\n", figura, area)
@@ -115,62 +69,89 @@ func imprimirDadosCalculados(figura string, area float64, perimetro float64, vol
 }
 
 // TODO implementar cálculo de área da pirâmide
-func calcularArea(opcao int, base float64, altura float64, largura float64) float64 {
-	if isCirculo(opcao) {
+/**
+ * Calcula a área das figuras geométricas planas/espaciais
+ */
+func calcularArea(figuraGeometrica int, base float64, altura float64, largura float64) float64 {
+	if isCirculo(figuraGeometrica) {
 		return math.Pi * math.Pow(base, 2)
-	} else if isEsfera(opcao) {
-		return 4 * math.Pow(base, 2) * math.Pi
-	} else if isQuadrado(opcao) {
-		return math.Pow(base, 2)
-	} else if isRetangulo(opcao) {
-		return base * altura
-	} else if isTriangulo(opcao) {
-		return base * altura / 2
-	} else if isCubo(opcao) {
-		return 6 * math.Pow(base, 2)
-	} else if isParalelepipedo(opcao) {
-		return 2 * (base*altura + base*largura + altura*largura)
-	} else {
-		return 0
 	}
+
+	if isEsfera(figuraGeometrica) {
+		return 4 * math.Pow(base, 2) * math.Pi
+	}
+
+	if isQuadrado(figuraGeometrica) {
+		return math.Pow(base, 2)
+	}
+
+	if isRetangulo(figuraGeometrica) {
+		return base * altura
+	}
+
+	if isTriangulo(figuraGeometrica) {
+		return base * altura / 2
+	}
+
+	if isCubo(figuraGeometrica) {
+		return 6 * math.Pow(base, 2)
+	}
+
+	if isParalelepipedo(figuraGeometrica) {
+		return 2 * (base*altura + base*largura + altura*largura)
+	}
+
+	return 0
 }
 
-func calcularVolume(opcao int, base float64, altura float64, largura float64) float64 {
-	if isPlano(opcao) {
+/**
+ * Calcula o volume das figuras espaciais
+ */
+func calcularVolume(figuraGeometrica int, base float64, altura float64, largura float64) float64 {
+	if isPlano(figuraGeometrica) {
 		return 0
 	}
 
-	if isEsfera(opcao) {
+	if isEsfera(figuraGeometrica) {
 		return (4 * math.Pi * math.Pow(base, 3)) / 3
-	} else if isParalelepipedo(opcao) {
+	}
+
+	if isParalelepipedo(figuraGeometrica) {
 		return base * altura * largura
-	} else if isPiramide(opcao) { // Is pirâmide
+	}
+
+	if isPiramide(figuraGeometrica) { // Is pirâmide
 		return base * largura * altura / 3
-	} else if isCubo(opcao) {
+	}
+
+	if isCubo(figuraGeometrica) {
 		return math.Pow(base, 3)
 	}
 
 	return 0
 }
 
-func calcularPerimetro(opcao int, base float64, altura float64) float64 {
-	if isEspacial(opcao) {
+/**
+ * Calcula o volume das figuras planas
+ */
+func calcularPerimetro(figuraGeometrica int, base float64, altura float64) float64 {
+	if isEspacial(figuraGeometrica) {
 		return 0
 	}
 
-	if isQuadrado(opcao) {
+	if isQuadrado(figuraGeometrica) {
 		return 4 * base
 	}
 
-	if isRetangulo(opcao) {
+	if isRetangulo(figuraGeometrica) {
 		return 2 * (base + altura)
 	}
 
-	if isTriangulo(opcao) {
+	if isTriangulo(figuraGeometrica) {
 		return 3 * base
 	}
 
-	if isCirculo(opcao) {
+	if isCirculo(figuraGeometrica) {
 		return 2 * math.Pi * base
 	}
 
