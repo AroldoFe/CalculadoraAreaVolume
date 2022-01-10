@@ -43,12 +43,11 @@ func main() {
 			var base = -1
 			var largura = -1
 			var altura = -1
-			var raio = -1
 
 			// Só precisa do raio
 			if isCirculoOrEsfera(figuraGeometricaSelecionada) {
 				fmt.Printf("%s %s: ", OPCAO_RAIO, figura)
-				raio = recuperarDado()
+				base = recuperarDado()
 			} else {
 				// Se é quadrado ou cubo, só requer base
 				// Recuperando base
@@ -72,20 +71,10 @@ func main() {
 
 			}
 
-			var area = -1.0
-			var perimetro = -1.0
-			var volume = -1.0
-
 			// Calcular dados
-			if isCirculoOrEsfera(figuraGeometricaSelecionada) {
-				area = calcularArea(figuraGeometricaSelecionada, float64(raio), 0, 0)
-				perimetro = calcularPerimetro(figuraGeometricaSelecionada, float64(raio), 0)
-				volume = calcularVolume(figuraGeometricaSelecionada, float64(raio), 0, 0)
-			} else {
-				area = calcularArea(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
-				perimetro = calcularPerimetro(figuraGeometricaSelecionada, float64(base), float64(altura))
-				volume = calcularVolume(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
-			}
+			area := calcularArea(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
+			perimetro := calcularPerimetro(figuraGeometricaSelecionada, float64(base), float64(altura))
+			volume := calcularVolume(figuraGeometricaSelecionada, float64(base), float64(altura), float64(largura))
 
 			// Imprimindo dados
 			imprimirDadosCalculados(figura, area, perimetro, volume)
